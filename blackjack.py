@@ -74,13 +74,19 @@ class Deck:
 
 
 class Game:
-    print("Welcome to Blackjack! ")
-    player1_name = input("enter player's name: ")
-    player1 = Player(player1_name)
-
-    dealer = Dealer()
-
-    deck = Deck()
+    def __init__(self):
+        self.dealer = Dealer()
+        self.deck = Deck()
+        print("Welcome to Blackjack! ")
+        done = False
+        while True:
+            try:
+                self.player1 = Player(input("enter player's name: "))
+                done = True
+            except:
+                print("try again")
+            if done:
+                break
 
     def point_counter(self, player):
         sum = 0
@@ -96,7 +102,7 @@ class Game:
             print(
                 f"{self.player1.name}, how much do you want to bet? (you have {self.player1.bankroll}$)")
             self.player1.bet = int(input("enter bet amount: "))
-            if self.player1.bankroll >= self.player1.bet:
+            if self.player1.bankroll >= self.player1.bet and self.player1.bet > 0:
                 self.player1.bankroll = self.player1.bankroll - self.player1.bet
                 betting_done = True
             else:
@@ -217,7 +223,7 @@ class Game:
                 break
 
             elif self.point_counter(self.dealer) < self.point_counter(self.player1):
-                print(f"you win! +{self.player1.bet}$")
+                print(f"you win! +{self.player1.bet*2}$")
                 self.player1.bankroll += (self.player1.bet*2)
                 break
 
@@ -236,9 +242,11 @@ class Game:
     def begin_game(self):
 
         while True:
-            self.bet()
 
+            b = False
+            self.bet()
             a = self.deal()
+
             if a:
                 b = self.hit_or_stand()
             if b:
@@ -248,7 +256,7 @@ class Game:
             self.dealer.current_hand = []
 
 
-game = Game()
+if __name__ == "__main__":
 
-
-game.begin_game()
+    game = Game()
+    game.begin_game()
