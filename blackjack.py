@@ -210,7 +210,14 @@ class Game:
 
             # deciding winner or draw
             if self.point_counter(self.dealer) == 21 and self.point_counter(self.player1) == 21:
-                print("it's a push! your bet is retuened. ")
+                if len(self.dealer.current_hand) == 2 and len(self.player1.current_hand) == 2:
+                    print("it's a push! your bet is returned.")
+                    self.player1.bankroll += self.player1.bet
+                elif len(self.dealer.current_hand) == 2 and len(self.player1.current_hand) > 2:
+                    print("you both hit 21, dealer has natural blackjack and wins!")
+                elif len(self.player1.current_hand) == 2 and len(self.dealer.current_hand) > 2:
+                    print("you both hit 21, you have natural black jack and you win!")
+                    self.player1.bankroll += (self.player1.bet)
                 break
 
             elif self.point_counter(self.dealer) > 21:
